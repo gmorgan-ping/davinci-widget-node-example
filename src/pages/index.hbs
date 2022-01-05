@@ -15,50 +15,49 @@
       src="https://pingsandboxsdk.singularkey.com/latest/singularkey.js" 
     ></script>
     
-    <script>
+    <script>      
+      function loadwidget() {
+        const apiBaseURL = "{{base_url}}/v1";
+        const companyId = "{{company_id}}";
+        const policyId = "{{policy_id}}";
+        const access_token = "{{access_token}}";
+
+        var props = {
+          config: {
+            method: "runFlow",
+            apiRoot: apiBaseURL,
+            accessToken: access_token,
+            companyId: companyId,
+            policyId: policyId
+          },
+          useModal: false,
+          successCallback,
+          errorCallback,
+          onCloseModal
+        };
+
+        /*** Invoke Singular Key Widget ****/
+        singularkey.skRenderScreen(document.getElementsByClassName("skWidget")[0],props);
+
+        }
       
-    function. load
-      const apiBaseURL = "{{base_url}}/v1";
-      const companyId = "{{company_id}}";
-      const policyId = "{{policy_id}}";
-      const access_token = "{{access_token}}";
+        function successCallback(response) {
+          console.log(response);
+        }
 
-      var props = {
-        config: {
-          method: "runFlow",
-          apiRoot: apiBaseURL,
-          accessToken: access_token,
-          companyId: companyId,
-          policyId: policyId
-        },
-        useModal: false,
-        successCallback,
-        errorCallback,
-        onCloseModal
-      };
-          
-      /*** Invoke Singular Key Widget ****/
-      singularkey.skRenderScreen(document.getElementsByClassName("skWidget")[0],props);
-      
-      function successCallback(response) {
-        console.log(response);
-      }
+        function errorCallback(error) {
+          console.log(error);
+        }
 
-      function errorCallback(error) {
-        console.log(error);
-      }
-
-      function onCloseModal() {
-        console.log("onCloseModal");
-      }
+        function onCloseModal() {
+          console.log("onCloseModal");
+        }
 
     </script>
     
   </head>
   
-  <body>  
-    <div id="widget" class="skWidget widget"></div>
-    
-    
+  <body onload="loadwidget()">  
+    <div id="widget" class="skWidget widget"></div>  
   </body>
 </html>
