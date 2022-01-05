@@ -1,9 +1,10 @@
 /**
-* This is the main Node.js server script for your project
-* Check out the two endpoints this back-end API provides in fastify.get and fastify.post below
-*/
+ * This is the main Node.js server script for your project
+ */
 
 const path = require("path");
+const fs = require("fs");
+const got = require("got");
 
 // Require the fastify framework and instantiate it
 const fastify = require("fastify")({
@@ -11,13 +12,10 @@ const fastify = require("fastify")({
   logger: false
 });
 
-// ADD FAVORITES ARRAY VARIABLE FROM TODO HERE
-
-
 // Setup our static files
 fastify.register(require("fastify-static"), {
   root: path.join(__dirname, "public"),
-  prefix: "/" // optional: default '/'
+  prefix: "/"
 });
 
 // fastify-formbody lets us parse incoming forms
@@ -30,87 +28,44 @@ fastify.register(require("point-of-view"), {
   }
 });
 
-// Load and parse SEO data
-const seo = require("./src/seo.json");
-if (seo.url === "glitch-default") {
-  seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
-}
-
 /**
-* Our home page route
-*
-* Returns src/pages/index.hbs with data built into it
-*/
+ * Orchestrate Portal
+ *
+ * Returns src/pages/index.hbs with data built into it
+ */
 fastify.get("/", function(request, reply) {
-  
-  // params is an object we'll pass to our handlebars template
-  let params = { seo: seo };
-  
-  // If someone clicked the option for a random color it'll be passed in the querystring
-  if (request.query.randomize) {
-    
-    // We need to load our color data file, pick one at random, and add it to the params
-    const colors = require("./src/colors.json");
-    const allColors = Object.keys(colors);
-    let currentColor = allColors[(allColors.length * Math.random()) << 0];
-    
-    // Add the color properties to the params object
-    params = {
-      color: colors[currentColor],
-      colorError: null,
-      seo: seo
-    };
-  }
-  
-  // The Handlebars code will be able to access the parameter values and build them into the page
-  reply.view("/src/pages/index.hbs", params);
+
+  const token_url =
+    process.env.BASE_URL +
+    "/v1/company/" +
+    process.env.COMPANY_ID +
+    "/sdkToken";
+
+  got
+    .get(token_url, {
+      headers: {
+        "X-SK-API-KEY": process.env.API_KEY
+      }
+    })
+    .json()
+    .then(data => {
+      let params = {
+        access_token: data.access_token,
+        company_id: process.env.COMPANY_ID,
+        policy_id: process.env.POLICY_ID,
+        base_url: process.env.BASE_URL,
+        site_title: "Ping Orchestrate - Connector Dev",
+        site_theme: "lite"
+      };
+
+      reply.view("/src/pages/index.hbs", params);
+    })
+    .catch(err => {
+      console.log("SK Error: ", JSON.stringify(err));
+      reply.send(err);
+    });
 });
 
-/**
-* Our POST route to handle and react to form submissions 
-*
-* Accepts body data indicating the user choice
-*/
-fastify.post("/", function(request, reply) {
-  
-  // Build the params object to pass to the template
-  let params = { seo: seo };
-  
-  // If the user submitted a color through the form it'll be passed here in the request body
-  let color = request.body.color;
-  
-  // If it's not empty, let's try to find the color
-  if (color) {
-    // ADD CODE FROM TODO HERE TO SAVE SUBMITTED FAVORITES
-    
-    // Load our color data file
-    const colors = require("./src/colors.json");
-    
-    // Take our form submission, remove whitespace, and convert to lowercase
-    color = color.toLowerCase().replace(/\s/g, "");
-    
-    // Now we see if that color is a key in our colors object
-    if (colors[color]) {
-      
-      // Found one!
-      params = {
-        color: colors[color],
-        colorError: null,
-        seo: seo
-      };
-    } else {
-      
-      // No luck! Return the user value as the error property
-      params = {
-        colorError: request.body.color,
-        seo: seo
-      };
-    }
-  }
-  
-  // The Handlebars template will use the parameter values to update the page with the chosen color
-  reply.view("/src/pages/index.hbs", params);
-});
 
 // Run the server and report out to the logs
 fastify.listen(process.env.PORT, function(err, address) {
