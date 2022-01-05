@@ -18,44 +18,10 @@
   </head>
   
   <body>  
-    <div class="background">
-      <div class="shape"></div>
-      <div class="shape"></div>
-    </div>
     <div class="content" role="header"></div>
     <div class="wrapper">
       <div class="content" role="main">
-        <!-- This is the start of content for our page -->
-        <script>
-          (function() {
-            console.log('Starting idle timer');
-            const idleDurationSecs = 1500;    // X number of seconds
-            const redirectUrl = 'https://orchestrate.pingidentity.cloud/';  // Redirect idle users to this URL
-            let idleTimeout; // variable to hold the timeout, do not modify
-
-            const resetIdleTimeout = function() {
-              // Clears the existing timeout
-              console.log('Resetting idle timer')
-              if(idleTimeout) clearTimeout(idleTimeout);
-                // Set a new idle timeout to load the redirectUrl after idleDurationSecs
-                idleTimeout = setTimeout(() => location.href = redirectUrl, idleDurationSecs * 1000);
-            };
-
-            // Init on page load
-            resetIdleTimeout();
-
-            // Reset the idle timeout on any of the events listed below
-            ['click', 'touchstart', 'keyup'].forEach(evt => 
-              document.addEventListener(evt, resetIdleTimeout, false)
-            );
-          })();
-        </script>
         <div id="widget" class="skWidget widget"></div>
-        <script
-          type="text/javascript"
-          src="https://pingsandboxsdk.singularkey.com/latest/singularkey.js"
-        ></script>
-
       </div>
     </div>
     
