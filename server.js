@@ -29,7 +29,7 @@ fastify.register(require("point-of-view"), {
 });
 
 /**
- * Orchestrate Portal
+ * Renders Orchestrate Example
  *
  * Returns src/pages/index.hbs with data built into it
  */
@@ -54,8 +54,7 @@ fastify.get("/", function(request, reply) {
         company_id: process.env.COMPANY_ID,
         policy_id: process.env.POLICY_ID,
         base_url: process.env.BASE_URL,
-        site_title: "Ping Orchestrate - Connector Dev",
-        site_theme: "lite"
+        site_title: "Hello World - Orchestrate Example"
       };
 
       reply.view("/src/pages/index.hbs", params);
