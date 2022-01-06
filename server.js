@@ -54,7 +54,7 @@ fastify.get("/", function(request, reply) {
         company_id: process.env.COMPANY_ID,
         policy_id: process.env.POLICY_ID,
         base_url: process.env.BASE_URL,
-        site_title: "Hello World - Orchestrate Example"
+        site_title: "Hello World - Node Orchestrate Example"
       };
 
       reply.view("/src/pages/index.hbs", params);
