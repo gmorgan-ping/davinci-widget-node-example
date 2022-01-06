@@ -4,7 +4,7 @@ This glitch application allows you to embed your PingOrchestrate widget within a
 
 ## skdToken
 
-The access token is retrieved on the server, then passed to the HTML page
+The access token is retrieved server-side (server.js), then passed to the HTML page
 
 ## Env Vars
 
