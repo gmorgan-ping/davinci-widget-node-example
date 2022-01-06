@@ -20,6 +20,7 @@
     
     <script>      
       function loadwidget() {
+        // Values sent within server.js
         const apiBaseURL = "{{base_url}}/v1";
         const companyId = "{{company_id}}";
         const policyId = "{{policy_id}}";
@@ -39,8 +40,8 @@
           onCloseModal
         };
 
-          /*** Invoke Singular Key Widget ****/
-          singularkey.skRenderScreen(document.getElementsByClassName("skWidget")[0],props);
+          /*** Invoke PingOrchestrate Widget ****/
+          singularkey.skRenderScreen(document.getElementById("widget"),props);
         }
       
         function successCallback(response) {
