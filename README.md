@@ -16,3 +16,9 @@ need to create the following variables and set their values for your flow policy
 - COMPANY_ID
 - API_KEY
 - POLICY_ID
+
+## Glitch Project
+https://glitch.com/~orchestrate-widget-node-example
+
+## GitHub Repo
+https://github.com/gmorgan-ping/orchestrate-widget-node-example
