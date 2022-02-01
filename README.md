@@ -1,6 +1,6 @@
-# PingOrchestrate Sample Flow Embed
+# PingOne DaVinci Sample Flow Embed
 
-This glitch application allows you to embed your PingOrchestrate widget within an HTML page while protecting your API key.
+This glitch application allows you to embed your PingOne DaVinci widget within an HTML page while protecting your API key.
 
 ## skdToken
 
@@ -18,7 +18,7 @@ need to create the following variables and set their values for your flow policy
 - POLICY_ID
 
 ## Glitch Project
-https://glitch.com/~orchestrate-widget-node-example
+https://glitch.com/~davinci-widget-node-example
 
 ## GitHub Repo
-https://github.com/gmorgan-ping/orchestrate-widget-node-example
+https://github.com/gmorgan-ping/davinci-widget-node-example
